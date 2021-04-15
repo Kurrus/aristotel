@@ -1,0 +1,220 @@
+@font-face {
+  font-family: 'SFProDisplay';
+  src: url('../fonts/SFProDisplay/SFProDisplay-Light/SFProDisplay-Light.woff2') format("woff2"), 
+       url('../fonts/SFProDisplay/SFProDisplay-Light/SFProDisplay-Light.woff') format("woff");
+  font-weight: 300;
+  font-display: auto;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SFProDisplay';
+  src: url('../fonts/SFProDisplay/SFProDisplay-Regular/SFProDisplay-Regular.woff2') format("woff2"), 
+       url('../fonts/SFProDisplay/SFProDisplay-Regular/SFProDisplay-Regular.woff') format("woff");
+  font-weight: 400;
+  font-display: auto;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SFProDisplay';
+  src: url('../fonts/SFProDisplay/SFProDisplay-Medium/SFProDisplay-Medium.woff2') format("woff2"), 
+       url('../fonts/SFProDisplay/SFProDisplay-Medium/SFProDisplay-Medium.woff') format("woff");
+  font-weight: 500;
+  font-display: auto;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SFProDisplay';
+  src: url('../fonts/SFProDisplay/SFProDisplay-SemiBold/SFProDisplay-SemiBold.woff2') format("woff2"), 
+       url('../fonts/SFProDisplay/SFProDisplay-SemiBold/SFProDisplay-SemiBold.woff') format("woff");
+  font-weight: 600;
+  font-display: auto;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SFProDisplay';
+  src: url('../fonts/SFProDisplay/SFProDisplay-Bold/SFProDisplay-Bold.woff2') format("woff2"),
+       url('../fonts/SFProDisplay/SFProDisplay-Bold/SFProDisplay-Bold.woff') format("woff");
+  font-weight: bold;
+  font-display: auto;
+  font-style: normal;
+}
+
+$SFProDisplay: 'SFProDisplay', sans-serif;
+
+$main-font: $SFProDisplay;
+$button-font: 500 14px $SFProDisplay;
+
+@font-face {
+  font-family: 'icon-font';
+  src:  url('../fonts/icon-font/icon-font.eot?zapzd9');
+  src:  url('../fonts/icon-font/icon-font.eot?zapzd9#iefix') format('embedded-opentype'),
+    url('../fonts/icon-font/icon-font.ttf?zapzd9') format('truetype'),
+    url('../fonts/icon-font/icon-font.woff?zapzd9') format('woff'),
+    url('../fonts/icon-font/icon-font.svg?zapzd9#icon-font') format('svg');
+  font-weight: normal;
+  font-display: auto;
+  font-style: normal;
+}
+[class^="fa-"], [class*=" fa-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icon-font' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-home-work:before {
+  content: "\e92e";
+}
+.fa-reset:before {
+  content: "\e92d";
+}
+.fa-copy:before {
+  content: "\e92c";
+}
+.fa-user-bonus:before {
+  content: "\e92b";
+}
+.fa-arrow-down:before {
+  content: "\e92a";
+}
+.fa-telegramm:before {
+  content: "\e900";
+}
+.fa-arrow-line:before {
+  content: "\e901";
+}
+.fa-arrow-line-back:before {
+  content: "\e902";
+}
+.fa-bonus:before {
+  content: "\e903";
+}
+.fa-close:before {
+  content: "\e904";
+}
+.fa-book:before {
+  content: "\e905";
+}
+.fa-list:before {
+  content: "\e906";
+}
+.fa-cart:before {
+  content: "\e907";
+}
+.fa-check:before {
+  content: "\e908";
+}
+.fa-clock:before {
+  content: "\e909";
+}
+.fa-facebook:before {
+  content: "\e90a";
+}
+.fa-faq:before {
+  content: "\e90b";
+}
+.fa-group:before {
+  content: "\e90c";
+}
+.fa-home:before {
+  content: "\e90d";
+}
+.fa-infinity:before {
+  content: "\e90e";
+}
+.fa-instagram:before {
+  content: "\e90f";
+}
+.fa-lock:before {
+  content: "\e910";
+}
+.fa-lock-open:before {
+  content: "\e911";
+}
+.fa-map:before {
+  content: "\e912";
+}
+.fa-arrow-next:before {
+  content: "\e913";
+}
+.fa-arrow-prev:before {
+  content: "\e914";
+}
+.fa-money:before {
+  content: "\e915";
+}
+.fa-notification:before {
+  content: "\e916";
+}
+.fa-out:before {
+  content: "\e917";
+}
+.fa-phone:before {
+  content: "\e918";
+}
+.fa-save:before {
+  content: "\e919";
+}
+.fa-share:before {
+  content: "\e91a";
+}
+.fa-star:before {
+  content: "\e91b";
+}
+.fa-telegram:before {
+  content: "\e91c";
+}
+.fa-test:before {
+  content: "\e91d";
+}
+.fa-timer:before {
+  content: "\e91e";
+}
+.fa-trade:before {
+  content: "\e91f";
+}
+.fa-user:before {
+  content: "\e920";
+}
+.fa-user-group:before {
+  content: "\e921";
+}
+.fa-square:before {
+  content: "\e922";
+}
+.fa-title:before {
+  content: "\e923";
+}
+.fa-certificate:before {
+  content: "\e924";
+}
+.fa-home-line:before {
+  content: "\e925";
+}
+.fa-cart-fill:before {
+  content: "\e926";
+}
+.fa-save-fill:before {
+  content: "\e927";
+}
+.fa-category-square:before {
+  content: "\e928";
+}
+.fa-play:before {
+  content: "\e92f";
+}
+.fa-vk:before {
+  content: "\e929";
+}

@@ -1,0 +1,126 @@
+.certified-courses {
+    padding: 60px 0 200px;
+    background-color: #F4F6F8;
+}
+.certified-courses-title {
+    margin-top: 50px;
+    p {
+        max-width: 560px;
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
+        letter-spacing: 0.04em;
+        color: #727272;
+        margin: 20px auto 0;
+    }
+}
+.courses-title-frame {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    h2 {
+        max-width: 340px ;
+        min-height: 33px;
+        padding: 6px 20px;
+        font-weight: 600;
+        font-size: 16px;
+        text-align: center;
+        line-height: 21px;
+        color: $main-color; 
+        background-color: #fff;
+        border-radius: 0px 15px 0px 0px;
+        box-sizing: border-box;
+    }
+    i {
+        font-size: 33px;
+        color: $main-color;
+        position: relative;
+        &::before {
+            position: relative;
+            z-index: 2;
+        }
+        &::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+    a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $main-color;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 14px;
+        position: absolute;
+        left: 20px;
+        top: 15px;
+        i {
+            color: $main-color;
+            font-size: 11px;
+            margin-right: 15px;
+            transition: .3s;
+            &::after {
+                display: none;
+            }
+        }
+        &:hover {
+            i {
+                transform: translateX(-2px);
+            }
+        }
+    }
+}
+.courses-title-border {
+    h2 {
+        border-radius: 0px 15px;
+    }
+}
+.courses-item-opacity {
+    opacity: 0.25;
+}
+.certified-descripter {
+    margin-top: 150px;
+    padding: 45px 0 20px;
+    position: relative;
+	&::before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        border-radius: 0 220px 0 220px;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+.descripter-content {
+    padding-left: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+.descripter-info {
+    max-width: 405px;
+    margin-left: 20px;
+    p {
+        font-size: 14px;
+        line-height: 20px;
+        color: #727272;
+        letter-spacing: 0.04em;
+        margin-top: 20px;
+    }
+    a {
+       @include button(367px, 44px);
+       margin-top: 40px; 
+    }
+}

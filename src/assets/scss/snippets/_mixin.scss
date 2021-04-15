@@ -1,0 +1,136 @@
+
+// @mixin button
+
+@mixin button($width: auto, $height: auto, $color: #fff) {
+	max-width: 100%;
+	width: $width;
+	height: $height;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100px;
+	background: $button-color;
+	font: $button-font;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	text-align: center;
+	color: $color;
+	box-sizing: border-box;
+	cursor: pointer;
+	position: relative;
+	span {
+		position: relative;
+		z-index: 2;
+		margin-left: -10px;
+	}
+	input {
+		display: none;
+	}
+	i {
+		width: 44px;
+		height: 44px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #F4F6F8;
+		color: $main-color;
+		font-size: 18px;
+		border-radius: 20px 0 20px 0;
+		position: absolute;
+		right: -2px;
+		transition: .4s;
+	}
+	.fa-arrow-line {
+		font-size: 12px;
+	}
+	&:hover {
+		background: linear-gradient(180deg, #4056DE 0%, #1E2F9A 100%);
+		i {
+			right: -10px;
+		}
+	}
+	@media screen and (max-width: 700px) {
+		font-size: 12px;
+	}
+}
+
+@mixin white-button($width: auto, $height: auto, $color: $main-color) {
+	max-width: 100%;
+	width: $width;
+	height: $height;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100px;
+	background: #fff;
+	font: $button-font;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	text-align: center;
+	color: $color;
+	box-sizing: border-box;
+	cursor: pointer;
+	position: relative;
+	span {
+		position: relative;
+		z-index: 2;
+		margin-left: -10px;
+	}
+	input {
+		display: none;
+	}
+	i {
+		width: 44px;
+		height: 44px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #F4F6F8;
+		color: $main-color;
+		font-size: 18px;
+		border-radius: 20px 0 20px 0;
+		position: absolute;
+		right: -2px;
+		transition: .4s;
+	}
+	.fa-arrow-line {
+		font-size: 12px;
+	}
+	&:hover {
+		i {
+			right: -10px;
+		}
+	}
+	@media screen and (max-width: 700px) {
+		font-size: 12px;
+	}
+}
+
+// @mixin placeholder
+
+@mixin placeholder($font, $color) {
+	&::placeholder {  font: $font; color: $color; } 
+}
+
+// @mixin grid
+
+@mixin grid($item: 3, $gap-columns: 20px, $gap-rows: 20px, $break: 0, $mobBreak: 1) {
+	$gridColumn: calc( (100% / #{$item}) - #{$gap-columns});
+	
+	display: grid;
+    grid-template-columns: repeat(auto-fill, minmax($gridColumn, 1fr));
+    grid-gap: $gap-rows $gap-columns;
+    box-sizing: border-box;
+
+	@media screen and (max-width: 1200px) {
+		grid-template-columns: repeat(auto-fill, minmax(calc( (100% / (#{$item} - #{$break})) - #{$gap-columns}), 1fr));
+	}
+
+	@media screen and (max-width: 700px) {
+		grid-template-columns: repeat(auto-fill, minmax(calc( 100% / #{$mobBreak} - #{$gap-columns}), 1fr));
+	}
+	img {
+		max-width: 100%;
+		display: block;
+	}
+}
