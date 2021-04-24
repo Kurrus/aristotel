@@ -51,6 +51,24 @@
 }
 .user-form {
     width: 300px;
+    &-group{
+
+        .error{
+            color: tomato;
+            margin-bottom: 5px;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        .user-profile-input {
+            background-color: #fff;
+            &.invalid{
+                border: 1px solid tomato;
+                &::placeholder{
+                    color: tomato;
+                }
+            }
+        }
+    }
 }
 .user-input {
     width: 100%;

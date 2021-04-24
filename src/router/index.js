@@ -24,15 +24,39 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'Login',
-    meta: { layout: "main" },
+    name: 'Логин',
+    meta: { layout: "auth" },
     component: () => import('../views/auth/Login')
   },
   {
     path: '/registration',
-    name: 'Registration',
-    meta: { layout: "main" },
+    name: 'Регистрация',
+    meta: { layout: "auth" },
     component: () => import('../views/auth/Registration')
+  },
+  {
+    path: '/code',
+    name: 'Код подтверждения',
+    meta: { layout: "auth" },
+    component: () => import('../views/auth/Code')
+  },
+  {
+    path: '/forgot',
+    name: 'Забыли пароль',
+    meta: { layout: "auth" },
+    component: () => import('../views/auth/Forgot')
+  },
+  {
+    path: '/forgot-code',
+    name: 'Код подтверждения',
+    meta: { layout: "auth" },
+    component: () => import('../views/auth/ForgotCode')
+  },
+  {
+    path: '/new-password',
+    name: 'Новый пароль',
+    meta: { layout: "auth" },
+    component: () => import('../views/auth/NewPassword')
   },
   {
     path: '/cart',

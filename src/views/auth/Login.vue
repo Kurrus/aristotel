@@ -1,45 +1,69 @@
 <template>
-  <main>
-    <div class="registration">
-      <div class="section-frame">
-        <ul class="breadcrumbs">
-          <li>
-            <router-link to="/"><i class="fa-home-line"></i></router-link>
-          </li>
-          <li><i class="fa-arrow-next"></i></li>
-          <li><router-link to="/login">Вход</router-link></li>
-        </ul>
-        <div class="page-sub-title reg-title">
-          <h1><i class="fa-title"></i>Вход</h1>
-        </div>
-        <div class="registration-content">
-          <img src="../../assets/images/registration.png" alt="">
-          <form action="#" method="post" class="user-form login-form">
-            <input type="text" name="login" class="user-input" placeholder="Логин или телефон" required>
-            <input type="password" name="password" class="user-input" placeholder="Пароль" required>
-            <a href="#" class="log-password">Забыли пароль?</a>
-            <div class="user-button">
-              <label class="user-form-sub">
-                <input type="submit">Вход
-                <i class="fa-out"></i>
-              </label>
-              <router-link to="/registration">Регистрация</router-link>
-            </div>
-            <div class="social-login">
-              <h3>Вход через</h3>
-              <div class="social-login-list">
-                <a href="#" class="login-facebook"><i class="fa-facebook"></i> Facebook</a>
-                <a href="#" class="login-telegram"><i class="fa-telegram"></i> Telegram</a>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+  <form action="#" method="post" class="user-form login-form">
+    <input type="text" :class="{invalid: !$v.phone.required && $v.phone.$dirty || !$v.phone.minLength && $v.phone.$dirty}" v-model="phone" v-maska="'+ 998 - ## - ### - ## - ##'" name="phone" class="user-input" placeholder="+ 998 - __ - ___ - __ - __" required>
+    <div class="error" v-if="!$v.phone.required && $v.phone.$dirty">Введите номер телефона</div>
+    <div class="error" v-if="!$v.phone.minLength && $v.phone.$dirty">Введите коректный номер телефона.</div>
+    <input type="password" :class="{invalid: !$v.password.required && $v.password.$dirty}" v-model="password" name="password" class="user-input" placeholder="Пароль" required>
+    <div class="error" v-if="!$v.password.required && $v.password.$dirty">Введите пароль</div>
+    <div class="error" v-if="!$v.password.minLength && $v.password.$dirty">Пароль должен иметь минимум {{ $v.password.$params.minLength.min }} символов.</div>
+    <router-link to="/forgot" class="log-password">Забыли пароль?</router-link>
+    <div class="user-button">
+      <label class="user-form-sub">
+        <input type="submit" @click.prevent="submitLogin">Вход
+        <i class="fa-out"></i>
+      </label>
+      <router-link to="/registration">Регистрация</router-link>
     </div>
-  </main>
+<!--    <div class="social-login">-->
+<!--      <h3>Вход через</h3>-->
+<!--      <div class="social-login-list">-->
+<!--        <a href="#" class="login-facebook"><i class="fa-facebook"></i> Facebook</a>-->
+<!--        <a href="#" class="login-telegram"><i class="fa-telegram"></i> Telegram</a>-->
+<!--      </div>-->
+<!--    </div>-->
+  </form>
 </template>
 
 <script>
+import {minLength, required} from "vuelidate/lib/validators";
+
 export default {
+  data() {
+    return {
+      phone: '',
+      password: '',
+    }
+  },
+  validations: {
+    phone: {
+      required,
+      minLength: minLength(26)
+    },
+    password: {
+      required,
+      minLength: minLength(6)
+    },
+  },
+  created() {
+    this.phone = this.$store.getters.getTelNumber
+  },
+  methods:{
+    async submitLogin(){
+      this.$v.$touch()
+      if (this.$v.$invalid){
+        return
+      }
+      const data = {
+        phone: this.phone.replace(/-|\s/g, "").replace(/[{()}]/g, ''),
+        password: this.password
+      }
+      try{
+        await this.$store.dispatch('login', data)
+        await this.$router.push('/')
+      }catch (e) {
+        await this.$store.commit('setError', 'not-auth')
+      }
+    }
+  }
 }
 </script>

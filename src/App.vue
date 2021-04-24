@@ -9,6 +9,7 @@
 <script>
 import MainLayout from "@/layouts/MainLayout";
 import UserLayout from "@/layouts/UserLayout";
+import AuthLayout from "@/layouts/AuthLayout";
 import Alert from "@/components/Alert";
 
 export default {
@@ -30,6 +31,7 @@ export default {
   components:{
     MainLayout,
     UserLayout,
+    AuthLayout,
     Alert
   }
 }

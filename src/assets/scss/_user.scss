@@ -72,6 +72,19 @@
         &:hover {
             color: $main-color;
         }
+        .invalid{
+            width: 12px;
+            height: 12px;
+            background: #FF3E3E;
+            padding: 4px;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            path{
+                fill: #fff;
+            }
+        }
     }
     i {
         width: 22px;
@@ -549,6 +562,9 @@
     }
 }
 .user-form-password {
+    .user-form-group{
+        margin-bottom: 15px;
+    }
     input {
         width: 300px;
         display: block;

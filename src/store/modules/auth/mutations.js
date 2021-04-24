@@ -1,9 +1,10 @@
-const setError = (state, payload) => {
-    state.error = payload;
-    setTimeout(()=>{
-        state.error = null
-    }, 3000)
+const setTelNumber = (state, payload) => {
+    state.tel_number = payload;
+};
+const setCode = (state, payload) => {
+    state.code = payload;
 };
 export default {
-    setError,
+    setTelNumber,
+    setCode
 };

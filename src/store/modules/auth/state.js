@@ -1,4 +1,6 @@
-let error = null
+let tel_number = null
+let code = null
 export default {
-    error
+    tel_number,
+    code
 }

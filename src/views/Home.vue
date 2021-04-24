@@ -329,6 +329,13 @@ export default {
       this.$router.push(e)
     }
   },
+  async mounted() {
+    try {
+      await this.$store.dispatch('getUserCredentials')
+    }catch (e){
+      // localStorage.removeItem('access')
+    }
+  },
   components: {
     VueSlickCarousel,
     CoursesCard

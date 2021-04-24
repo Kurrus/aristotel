@@ -9,8 +9,8 @@
             <h3>Вы точно хотите удалить курс?</h3>
           </div>
           <div class="reviews-popup-button">
-            <a href="#" class="logout" @click="$emit('delete', true)">Удалить <i class="fa-close"></i></a>
-            <a href="#" class="cart-reg" @click="$emit('close', false)"><span>Отменить</span></a>
+            <a href="#" class="logout" @click.prevent="$emit('delete', true)">Удалить <i class="fa-close"></i></a>
+            <a href="#" class="cart-reg" @click.prevent="$emit('close', false)"><span>Отменить</span></a>
           </div>
         </div>
       </div>
@@ -22,8 +22,8 @@
             <h3>Вы хотите выйти из аккаунта?</h3>
           </div>
           <div class="reviews-popup-button">
-            <a href="#" @click="$emit('logout', true)" class="logout">Выйти <i class="fa-out"></i></a>
-            <a href="#" @click="$emit('close', false)" class="cart-reg"><span>Остаться на странице</span></a>
+            <a href="#" @click.prevent="$emit('logout', true)" class="logout">Выйти <i class="fa-out"></i></a>
+            <a href="#" @click.prevent="$emit('close', false)" class="cart-reg"><span>Остаться на странице</span></a>
           </div>
         </div>
       </div>

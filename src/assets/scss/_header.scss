@@ -118,6 +118,7 @@
 .header-button {
     display: flex;
     align-items: center;
+    position: relative;
     a {
         width: 130px;
         height: 38px;
@@ -150,5 +151,18 @@
         font-size: 16px;
         color: #CCDCEB;
         margin-right: 15px;
+    }
+    .invalid{
+        width: 12px;
+        height: 12px;
+        background: #FF3E3E;
+        padding: 4px;
+        border-radius: 50%;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        path{
+            fill: #fff;
+        }
     }
 }

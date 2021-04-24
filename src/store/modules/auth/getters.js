@@ -1,5 +1,7 @@
-const getError = state => state.error
+const getTelNumber = state => state.tel_number
+const getCode = state => state.code
 
 export default {
-    getError
+    getTelNumber,
+    getCode
 }
