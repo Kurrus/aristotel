@@ -55,10 +55,10 @@
             </div>
 
             <div class="user-form-group">
-              <input type="text" :class="{invalid: !$v.user.login.required && $v.user.login.$dirty}"
-                     v-model="user.login" name="" class="user-profile-input input-mask"
+              <input type="text" :class="{invalid: !$v.user.phone.required && $v.user.phone.$dirty}"
+                     v-model="user.phone" name="" class="user-profile-input input-mask"
                      v-maska="'+ 998 - ## - ### - ## - ##'" placeholder="+ 998 - __ - ___ - __ - __">
-              <div class="error" v-if="!$v.user.login.required && $v.user.login.$dirty">Введите номер телефона</div>
+              <div class="error" v-if="!$v.user.phone.required && $v.user.phone.$dirty">Введите номер телефона</div>
             </div>
 
             <div class="user-form-group">
@@ -231,7 +231,7 @@ export default {
       date_birth: {
         required,
       },
-      login: {
+      phone: {
         required,
       },
       city: {

@@ -77,12 +77,13 @@ export default {
   async mounted() {
     try {
       await this.$store.dispatch('getUserCredentials')
+      await this.$store.dispatch('faqList')
     }catch (e){
-      localStorage.removeItem('access')
+      // localStorage.removeItem('access')
     }
-    if (!localStorage.getItem('access')){
-      await this.$router.push('/login')
-    }
+    // if (!localStorage.getItem('access')){
+    //   await this.$router.push('/login')
+    // }
   },
   methods: {
     popupUser(e) {

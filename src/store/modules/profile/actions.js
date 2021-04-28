@@ -53,10 +53,21 @@ const newPassword = async (context, obj) => {
             throw response
         }
 };
+const faqList = async (context) => {
+        const response = (await axios.get(`${process.env.VUE_APP_API_URL}/api/support/v1/faqs/list`)).data
+        console.log(response)
+        if (response.success){
+            await context.commit('setFaq', response.result)
+        }else{
+            await context.commit('setError', response.code)
+            throw response
+        }
+};
 
 export default {
     getUserCredentials,
     profileUpdate,
     checkPassword,
-    newPassword
+    newPassword,
+    faqList
 }

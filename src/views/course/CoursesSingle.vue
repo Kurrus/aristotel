@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main v-if="course">
     <div class="courses-page">
       <div class="section-frame">
         <ul class="breadcrumbs">
@@ -9,16 +9,16 @@
           <li><i class="fa-arrow-next"></i></li>
           <li><router-link to="/courses">Все курсы</router-link></li>
           <li><i class="fa-arrow-next"></i></li>
-          <li><router-link to="/course/2">Ведение деловых отчетов</router-link></li>
+          <li><router-link :to="'/course/'+  course.id ">{{ course.name }}</router-link></li>
         </ul>
       </div>
       <div class="courses-main-info">
         <div class="section-frame">
           <div class="courses-main-content">
             <div class="page-sub-title sub-title-white courses-title">
-              <h1><i class="fa-title"></i> Ведение деловых отчетов <span class="desc-lesson">13 УРОКОВ</span></h1>
+              <h1><i class="fa-title"></i> {{ course.name }} <span class="desc-lesson">13 УРОКОВ</span></h1>
               <span class="mob-counter-lesson">13 УРОКОВ</span>
-              <p>Бизнес администрирование</p>
+              <p>{{ course.category }}</p>
             </div>
             <div class="courses-data-frame">
               <p class="courses-main-data"><i class="fa-clock"></i>Последнее обновление: <span>03.02.2021</span></p>
@@ -59,27 +59,22 @@
                 </div>
                 <div class="courses-content-body">
                   <div class="courses-content-info">
-                    <p :class="{'content-active': descRead}">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    </p>
-                    <transition v-on:enter="enter" v-on:leave="leave">
-                    <p v-if="descRead" class="courses-content-hide">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    </p>
-                    </transition>
-                    <span @click="descRead = true" v-if="!descRead" class="courses-plus content-plus"><i class="fa-title"></i></span>
+                    <p class="content-active" :class="{'content-active': descRead}" v-html="course.description"></p>
+                    <template v-if="false">
+
+                      <transition v-on:enter="enter" v-on:leave="leave">
+                        <p v-if="descRead" class="courses-content-hide">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                          nisi ut aliquip ex ea commodo consequat.
+                          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        </p>
+                      </transition>
+                      <span @click="descRead = true" v-if="!descRead" class="courses-plus content-plus"><i class="fa-title"></i></span>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -126,89 +121,27 @@
                   <a href="#" class="reviews-btn js-reviews-log">Оставить отзыв</a>
                 </div>
 
-                <div class="courses-content-body">
+                <div class="courses-content-body" v-if="reviews">
                   <div class="average-rating">
-                    <p>Средняя оценка <span>4.3</span></p>
+                    <p>Средняя оценка <span>{{reviews.average_rate}}</span></p>
                     <div class="average-stars">
-                      <i class="fa-star average-star-active"></i>
-                      <i class="fa-star average-star-active"></i>
-                      <i class="fa-star average-star-active"></i>
-                      <i class="fa-star average-star-active"></i>
-                      <i class="fa-star"></i>
-                      <span>(45)</span>
+                      <i v-for="i in 5" :key="i" class="fa-star" :class="{'average-star-active': i <= parseInt(reviews.average_rate)}"></i>
+                      <span>({{ reviews.count }})</span>
                     </div>
                   </div>
                   <div class="reviews-list">
-                    <div class="reviews-item">
+                    <div class="reviews-item" v-for="item in reviews.result" :key="item.id">
                       <div class="reviews-info">
                         <div class="reviews-name">
-                          <img src="../../assets/images/reviews-photo.png" alt="">
-                          <h4>Максим</h4>
-                          <span>30 дней  назад</span>
+                          <img :src="(item.user_image ? domain : '') + (item.user_image || require('../../assets/images/reviews-photo.png'))" alt="">
+                          <h4>{{ item.user_name }}</h4>
+                          <span>{{ item.date_after }} дней  назад</span>
                         </div>
                         <div class="reviews-stars">
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star"></i>
+                          <i v-for="i in 5" :key="i" class="fa-star" :class="{'average-star-active': i <= item.rate}"></i>
                         </div>
                       </div>
-                      <p class="reviews-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-                    </div>
-                    <div class="reviews-item">
-                      <div class="reviews-info">
-                        <div class="reviews-name">
-                          <img src="../../assets/images/reviews-photo.png" alt="">
-                          <h4>Максим</h4>
-                          <span>30 дней  назад</span>
-                        </div>
-                        <div class="reviews-stars">
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star"></i>
-                        </div>
-                      </div>
-                      <p class="reviews-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-                    </div>
-                    <div class="reviews-item">
-                      <div class="reviews-info">
-                        <div class="reviews-name">
-                          <img src="../../assets/images/reviews-photo.png" alt="">
-                          <h4>Максим</h4>
-                          <span>30 дней  назад</span>
-                        </div>
-                        <div class="reviews-stars">
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star"></i>
-                        </div>
-                      </div>
-                      <p class="reviews-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-                    </div>
-                    <div class="reviews-item reviews-item-hide">
-                      <div class="reviews-info">
-                        <div class="reviews-name">
-                          <img src="../../assets/images/reviews-photo.png" alt="">
-                          <h4>Максим</h4>
-                          <span>30 дней  назад</span>
-                        </div>
-                        <div class="reviews-stars">
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star average-star-active"></i>
-                          <i class="fa-star"></i>
-                        </div>
-                      </div>
-                      <p class="reviews-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                      <p class="reviews-text" v-html="item.review">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                     </div>
                   </div>
@@ -217,19 +150,15 @@
               </div>
             </div>
             <div class="courses-content-cart">
-              <img src="../../assets/images/courses/courses-page.jpg" class="courses-content-photo" alt="">
+              <img :src="course.image" class="courses-content-photo" alt="">
               <div class="courses-cart-info">
                 <div class="courses-cart-product">
                   <div class="courses-cart-price">
-                    <span>10 000 UZS </span>
-                    <p>8.000 UZS</p>
+                    <span>{{ parseInt(course.old_price) }} UZS </span>
+                    <p>{{ parseInt(course.price) }} UZS</p>
                   </div>
                   <div class="courses-cart-star">
-                    <i class="fa-star average-star-active"></i>
-                    <i class="fa-star average-star-active"></i>
-                    <i class="fa-star average-star-active"></i>
-                    <i class="fa-star average-star-active"></i>
-                    <i class="fa-star"></i>
+                    <i v-for="i in 5" :key="i" class="fa-star" :class="{'average-star-active': i <= 5}"></i>
                   </div>
                 </div>
                 <div class="courses-cart-btn">
@@ -281,7 +210,20 @@ export default {
         { open:false, name: 'Практика', lessons: '7 уроков'},
         { open:false, name: 'Повторение пройденного материала', lessons: '2 уроков'},
         { open:false, name: 'Подготовка к экзаменационным билетам', lessons: '3 уроков'},
-      ]
+      ],
+      domain: process.env.VUE_APP_API_URL
+    }
+  },
+  async mounted() {
+    await this.$store.dispatch('getCourse', this.$route.params.id)
+    await this.$store.dispatch('getReviewsById', this.$route.params.id)
+  },
+  computed:{
+    course(){
+      return this.$store.getters.getCourse
+    },
+    reviews(){
+      return this.$store.getters.getReviews
     }
   },
   methods:{

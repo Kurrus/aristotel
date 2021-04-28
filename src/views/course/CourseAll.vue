@@ -3,11 +3,9 @@
     <div class="courses-all">
       <div class="section-frame">
         <ul class="breadcrumbs">
-          <li>
-            <a href="#"><i class="fa-home-line"></i></a>
-          </li>
+          <li><router-link to="/"><i class="fa-home-line"></i></router-link></li>
           <li><i class="fa-arrow-next"></i></li>
-          <li><a href="registration.html">Все курсы</a></li>
+          <li><router-link to="/courses">Все курсы</router-link></li>
         </ul>
         <div class="page-sub-title">
           <h1><i class="fa-title"></i>Все курсы</h1>
@@ -20,12 +18,12 @@
             </div>
             <transition v-on:enter="enter" v-on:leave="leave">
               <div class="courses-category-list" v-show="category_open">
-                <div class="courses-category-item" v-for="(item, index) in items" :key="index">
-                  <h4 @click="openItem(item)" :class="{'courses-active' : item.is_open}">{{ item.name }}<i
+                <div class="courses-category-item" v-for="item in category" :key="item.id">
+                  <h4 @click="openItem(item), CoursesById(item.id)" :class="{'courses-active' : item.is_open}">{{ item.title }}<i
                       class="fa-arrow-next"></i></h4>
                   <transition v-on:enter="enter" v-on:leave="leave">
                     <ul v-show="item.is_open">
-                      <li v-for="(itm, index) in item.children" :key="index"><a href="#">{{ itm.name }}</a></li>
+                      <li v-for="itm in item.children" :key="itm.id"><a href="#" @click.prevent="CoursesById(itm.id)">{{ itm.title }}</a></li>
                     </ul>
                   </transition>
                 </div>
@@ -35,22 +33,10 @@
           </div>
           <div class="courses-all-box">
             <div class="courses-all-list">
-              <CoursesCard :finish="true"/>
-              <CoursesCard :new_product="true"/>
-              <CoursesCard :work="true"/>
-              <CoursesCard :finish="true"/>
-              <CoursesCard :new_product="true"/>
-              <CoursesCard :work="true"/>
-              <CoursesCard :finish="true"/>
-              <CoursesCard :new_product="true"/>
-              <CoursesCard :work="true"/>
-              <CoursesCard :finish="true"/>
-              <CoursesCard :new_product="true"/>
-              <CoursesCard :work="true"/>
+              <CoursesCard v-for="item in courses" :key="item.id" :data="item" :finish="true"/>
             </div>
             <a href="#" class="courses-all-hide">Еще курсы <i class="fa-arrow-line"></i></a>
           </div>
-
         </div>
       </div>
     </div>
@@ -65,86 +51,14 @@ export default {
   data() {
     return {
       category_open: true,
-      items: [
-        {
-          name: 'Бизнес',
-          is_open: false,
-          children: [
-            {name: 'SMM'},
-            {name: 'Стратегия'}
-          ]
-        },
-        {
-          name: 'Маркетинг',
-          is_open: false,
-          children: [
-            {name: 'SMM'},
-            {name: 'Стратегия'}
-          ]
-        },
-        {
-          name: 'Менеджмент',
-          is_open: false,
-          children: [
-            {name: 'SMM'},
-            {name: 'Стратегия'}
-          ]
-        },
-        {
-          name: 'Психология',
-          is_open: false,
-          children: [
-            {name: 'SMM'},
-            {name: 'Стратегия'}
-          ]
-        },
-        {
-          name: 'Экономика',
-          is_open: false,
-          children: [
-            {name: 'SMM'},
-            {name: 'Стратегия'}
-          ]
-        },
-        {
-          name: 'Лидерство',
-          is_open: false,
-          children: [
-            {name: 'SMM'},
-            {name: 'Стратегия'}
-          ]
-        },
-        {
-          name: 'Бухгалтерия',
-          is_open: false,
-          children: [
-            {name: 'SMM'},
-            {name: 'Стратегия'}
-          ]
-        },
-        {
-          name: 'Банк',
-          is_open: false,
-          children: [
-            {name: 'SMM'},
-            {name: 'Стратегия'}
-          ]
-        },
-        {
-          name: 'Личность',
-          is_open: false,
-          children: [
-            {name: 'SMM'},
-            {name: 'Стратегия'}
-          ]
-        },
-      ]
     }
   },
-  mounted() {
+  async mounted() {
     if (window.innerWidth <= 700){
       this.category_open = !this.category_open
     }
+    await this.$store.dispatch('getCategory')
+    await this.$store.dispatch('getCourses')
   },
   methods: {
     openItem: function (item) {
@@ -178,6 +92,17 @@ export default {
       if (window.innerWidth <= 700){
         this.category_open = !this.category_open
       }
+    },
+    async CoursesById(id){
+      await this.$store.dispatch('getCoursesById', id)
+    }
+  },
+  computed: {
+    category() {
+      return this.$store.getters.getCategory;
+    },
+    courses(){
+      return this.$store.getters.getCourses;
     }
   },
   components: {

@@ -1,31 +1,34 @@
 <template>
-  <div class="courses-item" :class="{'courses-slide': slide, 'courses-item-finish': finish, 'courses-item-opacity': opacity}">
-    <div v-if="work || finish || new_product || load || opacity" class="courses-item-status" :class="{'status-work': work, 'status-finish': finish, 'status-new': new_product, 'status-load': load}">
+  <div v-if="data" class="courses-item" :class="{'courses-slide': slide, 'courses-item-finish': data.status === 'FINISHED', 'courses-item-opacity': opacity}">
+    <div
+        v-if="data.status === 'FINISHED'|| data.status === 'NEW'|| data.status === 'DOWNLOADING'" class="courses-item-status"
+        :class="{'status-work': work, 'status-finish': data.status === 'FINISHED', 'status-new': data.status === 'NEW', 'status-load': data.status === 'DOWNLOADING'}"
+    >
       <img v-if="work" src="../assets/images/status/work.svg" alt="">
-      <img v-if="finish || opacity" src="../assets/images/status/finish.svg" alt="">
-      <img v-if="new_product" src="../assets/images/status/new.svg" alt="">
-      <img v-if="load" src="../assets/images/status/load.svg" alt="">
+      <img v-if="data.status === 'FINISHED' || opacity" src="../assets/images/status/finish.svg" alt="">
+      <img v-if="data.status === 'NEW'" src="../assets/images/status/new.svg" alt="">
+      <img v-if="data.status === 'DOWNLOADING'" src="../assets/images/status/load.svg" alt="">
       <span v-if="work">В процессе</span>
-      <span v-if="finish || opacity">Завершено</span>
-      <span v-if="new_product">Новинка</span>
-      <span v-if="load">Курс загружается</span>
+      <span v-if="data.status === 'FINISHED' || opacity">Завершено</span>
+      <span v-if="data.status === 'NEW'">Новинка</span>
+      <span v-if="data.status === 'DOWNLOADING'">Курс загружается</span>
     </div>
     <i v-if="close" @click="$emit('close', true)" class="courses-del-desires js-popup-desires fa-close"></i>
     <div class="courses-item-photo" >
-      <img :src="require(`../assets/images/courses/courses-2.jpg`)" alt="">
+      <img :src="data.image" alt="">
       <div v-if="work" class="courses-item-progres">
         <span class="progres-line" style="width: 33%;"></span>
       </div>
     </div>
     <div class="courses-item-content">
       <div class="courses-info">
-        <p>Бизнес администрирование</p>
-        <a :href="`${url || '/course'}/2`"  @click.prevent="upTop(`${url || '/course'}/2`)">Ведение деловых отчетов</a>
+        <p>{{ data.category }}</p>
+        <a :href="`${url || '/course'}/${data.id}`"  @click.prevent="upTop(`${url || '/course'}/${data.id}`)">{{ data.name }}</a>
       </div>
       <div class="courses-purchase">
         <div class="courses-price">
-          <span>10 000 UZS </span>
-          <p>8.000 UZS</p>
+          <span v-if="data.old_price">{{ parseInt(data.old_price) }}UZS </span>
+          <p>{{ parseInt(data.price) }} UZS</p>
         </div>
         <a :href="`${url || '/course'}/2`"  @click.prevent="upTop(`${url || '/course'}/2`)" class="courses-btn">Читать</a>
       </div>
@@ -68,6 +71,7 @@ export default {
       type: String,
       default: ''
     },
+    data: {},
   },
   methods:{
     upTop(e){
