@@ -119,9 +119,7 @@
         </div>
       </div>
     </template>
-    <template v-else>
-      <loading/>
-    </template>
+
   </div>
 </template>
 
@@ -130,7 +128,6 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/ru';
 import {minLength, required, sameAs} from "vuelidate/lib/validators";
-import loading from "@/components/loading";
 
 export default {
   data() {
@@ -143,19 +140,21 @@ export default {
   },
   methods: {
     async submitUpdate() {
-
-      let user = {
-        profile: {
-          first_name: this.user.first_name,
-          last_name: this.user.last_name,
-          full_name: this.user.full_name,
-          phone: this.user.login,
-          country: this.user.country,
-          city: this.user.city,
-          street: this.user.street,
-          date_birth: this.user.date_birth
-        }
+      let user = new FormData();
+      if (user.date_birth === null)
+      {
+        user.date_birth = '2021-12-12'
       }
+      user.append('image', "");
+      user.append('first_name', this.user.first_name);
+      user.append('last_name', this.user.last_name);
+      user.append('full_name', this.user.full_name);
+      user.append('phone', this.user.phone.replace(/-|\s/g, "").replace(/[{()}]/g, ''));
+      user.append('country', "Узбекистан");
+      user.append('city', this.user.city);
+      user.append('date_birth', this.user.date_birth || '');
+      user.append('street', this.user.street);
+
       try {
         await this.$store.dispatch('profileUpdate', user)
       } catch (e) {
@@ -216,6 +215,7 @@ export default {
   },
   created() {
     this.$v.user.$touch()
+
   },
   validations: {
     user: {
@@ -257,8 +257,8 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUserCredentials;
-    }
+    },
   },
-  components: {DatePicker, loading},
+  components: {DatePicker},
 }
 </script>

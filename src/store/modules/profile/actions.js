@@ -2,6 +2,7 @@ import axios from "axios";
 // import router from "@/router";
 
 const getUserCredentials = async (context) => {
+        context.commit('setLoading', true)
         const response = (await axios.get(`${process.env.VUE_APP_API_URL}/api/profiles/v1/detail`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('access')}`
@@ -15,9 +16,10 @@ const getUserCredentials = async (context) => {
         }
 };
 const profileUpdate = async (context, obj) => {
-        const response = (await axios.put(`${process.env.VUE_APP_API_URL}/api/profiles/v1/update`, obj,{
+        const response = (await axios.post(`${process.env.VUE_APP_API_URL}/api/profiles/v1/update`, obj,{
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('access')}`
+                'Authorization': `Bearer ${localStorage.getItem('access')}`,
+                "Content-Type": "multipart/form-data"
             }
         })).data
         if (response.success){
@@ -55,7 +57,6 @@ const newPassword = async (context, obj) => {
 };
 const faqList = async (context) => {
         const response = (await axios.get(`${process.env.VUE_APP_API_URL}/api/support/v1/faqs/list`)).data
-        console.log(response)
         if (response.success){
             await context.commit('setFaq', response.result)
         }else{

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <Header/>
     <router-view/>
     <MobileBar @active="popupUser"/>
@@ -13,7 +13,6 @@ import Header from "@/components/Header";
 import MobileBar from "@/components/MobileBar";
 import Footer from "@/components/Footer";
 import PopupUser from "@/components/PopupUser";
-
 export default {
   data() {
     return {
@@ -24,6 +23,8 @@ export default {
     popupUser(e) {
       this.active = e
     }
+  },
+  computed: {
   },
   components: {
     Header,

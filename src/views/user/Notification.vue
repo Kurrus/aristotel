@@ -12,7 +12,8 @@
           </div>
           <div class="notification-btn">
             <p><i class="fa-clock"></i> 15 минут назад</p>
-            <a href="#"><span>Перейти</span> </a>
+            <br>
+            <br>
           </div>
         </div>
 
@@ -25,7 +26,8 @@
           </div>
           <div class="notification-btn">
             <p><i class="fa-clock"></i> 15 минут назад</p>
-            <a href="#"><span>Перейти</span> </a>
+            <br>
+            <br>
           </div>
         </div>
 
@@ -38,7 +40,8 @@
           </div>
           <div class="notification-btn">
             <p><i class="fa-clock"></i> 15 минут назад</p>
-            <a href="#"><span>Перейти</span> </a>
+            <br>
+            <br>
           </div>
         </div>
 
@@ -51,7 +54,8 @@
           </div>
           <div class="notification-btn">
             <p><i class="fa-clock"></i> 15 минут назад</p>
-            <a href="#"><span>Перейти</span> </a>
+            <br>
+            <br>
           </div>
         </div>
 

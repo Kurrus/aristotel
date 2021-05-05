@@ -7,7 +7,9 @@
           <div class="user-frame">
             <div class="user-section" v-if="user">
               <div class="user-photo">
-                <img src="../assets/images/user.png" alt="">
+                <img :src="(user.image ? domain : '') + (user.image || require('../assets/images/user.png'))" alt="">
+                <label for="editImg"><img src="../assets/images/camera-solid.svg" alt=""></label>
+                <input @change="userUpdate($event)" type="file" accept=".png, .jpg, .jpeg" id="editImg">
               </div>
               <h3 class="user-name">{{user.first_name}}</h3>
               <p class="user-info-bonus">Мои бонусы <span>2 <i class="fa-user-bonus"></i></span></p>
@@ -66,24 +68,24 @@ import MobileBar from "@/components/MobileBar";
 import Footer from "@/components/Footer";
 import PopupUser from "@/components/PopupUser";
 import DeleteCoursePopup from "@/components/DeleteCoursePopup";
-
 export default {
   data() {
     return {
       active: false,
       logoutPopup: false,
+      domain: process.env.VUE_APP_API_URL,
     }
   },
   async mounted() {
     try {
       await this.$store.dispatch('getUserCredentials')
       await this.$store.dispatch('faqList')
+      await this.$store.dispatch('getWishlist')
+      this.$store.commit('setLoading', false)
     }catch (e){
       // localStorage.removeItem('access')
     }
-    // if (!localStorage.getItem('access')){
-    //   await this.$router.push('/login')
-    // }
+
   },
   methods: {
     popupUser(e) {
@@ -91,6 +93,25 @@ export default {
     },
     logoutPopupFunc(e) {
       this.logoutPopup = e
+    },
+    async userUpdate(event){
+      let user = new FormData();
+      user.append('image', event.target.files[0]);
+      user.append('first_name', this.user.first_name);
+      user.append('last_name', this.user.last_name);
+      user.append('full_name', this.user.full_name);
+      user.append('phone', this.user.phone.replace(/-|\s/g, "").replace(/[{()}]/g, ''));
+      user.append('country', "Узбекистан");
+      user.append('city', this.user.city);
+      user.append('date_birth', this.user.date_birth || '');
+      user.append('street', this.user.street);
+
+      try {
+        await this.$store.dispatch('profileUpdate', user)
+        await this.$store.dispatch('getUserCredentials')
+      } catch (e) {
+        console.log(e)
+      }
     },
     async logout(e){
       if (e){
@@ -100,17 +121,18 @@ export default {
 
     }
   },
+
   computed: {
     user() {
       return this.$store.getters.getUserCredentials;
-    }
+    },
   },
   components: {
     Header,
     MobileBar,
     Footer,
     PopupUser,
-    DeleteCoursePopup
+    DeleteCoursePopup,
   }
 }
 </script>

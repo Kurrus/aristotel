@@ -1,8 +1,7 @@
 <template>
   <form action="#" method="post" class="user-form login-form">
-    <input type="text" :class="{invalid: !$v.phone.required && $v.phone.$dirty || !$v.phone.minLength && $v.phone.$dirty}" v-model="phone" v-maska="'+ 998 - ## - ### - ## - ##'" name="phone" class="user-input" placeholder="+ 998 - __ - ___ - __ - __" required>
-    <div class="error" v-if="!$v.phone.required && $v.phone.$dirty">Введите номер телефона</div>
-    <div class="error" v-if="!$v.phone.minLength && $v.phone.$dirty">Введите коректный номер телефона.</div>
+    <input type="text" :class="{invalid: !$v.phone.required && $v.phone.$dirty}" v-model="phone"  name="phone" class="user-input" placeholder="Введите номер телефона или логин" required>
+    <div class="error" v-if="!$v.phone.required && $v.phone.$dirty">Введите номер телефона или логин</div>
     <input type="password" :class="{invalid: !$v.password.required && $v.password.$dirty}" v-model="password" name="password" class="user-input" placeholder="Пароль" required>
     <div class="error" v-if="!$v.password.required && $v.password.$dirty">Введите пароль</div>
     <div class="error" v-if="!$v.password.minLength && $v.password.$dirty">Пароль должен иметь минимум {{ $v.password.$params.minLength.min }} символов.</div>
@@ -26,7 +25,6 @@
 
 <script>
 import {minLength, required} from "vuelidate/lib/validators";
-
 export default {
   data() {
     return {
@@ -37,13 +35,13 @@ export default {
   validations: {
     phone: {
       required,
-      minLength: minLength(26)
     },
     password: {
       required,
       minLength: minLength(6)
     },
   },
+
   created() {
     this.phone = this.$store.getters.getTelNumber
   },
@@ -63,7 +61,13 @@ export default {
       }catch (e) {
         await this.$store.commit('setError', 'not-auth')
       }
+    },
+    yourCallbackFunction (user) {
+      // gets user as an input
+      // id, first_name, last_name, username,
+      // photo_url, auth_date and hash
+      console.log(user)
     }
-  }
+  },
 }
 </script>

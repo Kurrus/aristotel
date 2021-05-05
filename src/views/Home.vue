@@ -330,11 +330,8 @@ export default {
     }
   },
   async mounted() {
-    try {
-      await this.$store.dispatch('getUserCredentials')
-    }catch (e){
-      // localStorage.removeItem('access')
-    }
+    try { await this.$store.dispatch('getUserCredentials') }catch (e){ localStorage.removeItem('access') }
+    try { await this.$store.dispatch('getCourses') }catch (e){ console.log(e) }
   },
   components: {
     VueSlickCarousel,

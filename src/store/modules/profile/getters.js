@@ -3,5 +3,5 @@ const getFaq = state => state.faq
 
 export default {
     getUserCredentials,
-    getFaq
+    getFaq,
 }

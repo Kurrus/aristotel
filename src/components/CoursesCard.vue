@@ -1,21 +1,22 @@
 <template>
-  <div v-if="data" class="courses-item" :class="{'courses-slide': slide, 'courses-item-finish': data.status === 'FINISHED', 'courses-item-opacity': opacity}">
+  <div v-if="data" class="courses-item" :class="{'courses-slide': slide, 'courses-item-finish': data.status.toUpperCase() === 'FINISHED', 'courses-item-opacity': opacity}">
     <div
-        v-if="data.status === 'FINISHED'|| data.status === 'NEW'|| data.status === 'DOWNLOADING'" class="courses-item-status"
-        :class="{'status-work': work, 'status-finish': data.status === 'FINISHED', 'status-new': data.status === 'NEW', 'status-load': data.status === 'DOWNLOADING'}"
+        v-if="data.status.toUpperCase() === 'FINISHED'|| data.status.toUpperCase() === 'NEW'|| data.status.toUpperCase() === 'DOWNLOADING'" class="courses-item-status"
+        :class="{'status-work': work, 'status-finish': data.status.toUpperCase() === 'FINISHED', 'status-new': data.status.toUpperCase() === 'NEW', 'status-load': data.status.toUpperCase() === 'DOWNLOADING'}"
     >
       <img v-if="work" src="../assets/images/status/work.svg" alt="">
-      <img v-if="data.status === 'FINISHED' || opacity" src="../assets/images/status/finish.svg" alt="">
-      <img v-if="data.status === 'NEW'" src="../assets/images/status/new.svg" alt="">
-      <img v-if="data.status === 'DOWNLOADING'" src="../assets/images/status/load.svg" alt="">
+      <img v-if="data.status.toUpperCase() === 'FINISHED' || opacity" src="../assets/images/status/finish.svg" alt="">
+      <img v-if="data.status.toUpperCase() === 'NEW'" src="../assets/images/status/new.svg" alt="">
+      <img v-if="data.status.toUpperCase() === 'DOWNLOADING'" src="../assets/images/status/load.svg" alt="">
       <span v-if="work">В процессе</span>
-      <span v-if="data.status === 'FINISHED' || opacity">Завершено</span>
-      <span v-if="data.status === 'NEW'">Новинка</span>
-      <span v-if="data.status === 'DOWNLOADING'">Курс загружается</span>
+      <span v-if="data.status.toUpperCase() === 'FINISHED' || opacity">Завершено</span>
+      <span v-if="data.status.toUpperCase() === 'NEW'">Новинка</span>
+      <span v-if="data.status.toUpperCase() === 'DOWNLOADING'">Курс загружается</span>
     </div>
-    <i v-if="close" @click="$emit('close', true)" class="courses-del-desires js-popup-desires fa-close"></i>
+    <i v-if="close" @click="$emit('close', {event: true, id: data.id})" class="courses-del-desires js-popup-desires fa-close"></i>
     <div class="courses-item-photo" >
-      <img :src="data.image" alt="">
+
+      <img :src="domain+data.image" alt="">
       <div v-if="work" class="courses-item-progres">
         <span class="progres-line" style="width: 33%;"></span>
       </div>
@@ -31,6 +32,7 @@
           <p>{{ parseInt(data.price) }} UZS</p>
         </div>
         <a :href="`${url || '/course'}/2`"  @click.prevent="upTop(`${url || '/course'}/2`)" class="courses-btn">Читать</a>
+
       </div>
     </div>
   </div>
@@ -38,6 +40,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      domain: process.env.VUE_APP_API_URL
+    }
+  },
   props: {
     slide: {
       type: Boolean,
@@ -72,6 +79,7 @@ export default {
       default: ''
     },
     data: {},
+
   },
   methods:{
     upTop(e){

@@ -60,6 +60,7 @@ export default {
       }
       const user = {
         user:{
+          referrer: localStorage.getItem('referrer') || '',
           phone: this.phone.replace(/-|\s/g, "").replace(/[{()}]/g, ''),
           password: this.password
         }

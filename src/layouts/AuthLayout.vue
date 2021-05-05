@@ -27,6 +27,7 @@
   </div>
 </template>
 
+
 <script>
 import Header from "@/components/Header";
 import MobileBar from "@/components/MobileBar";
@@ -44,11 +45,15 @@ export default {
       this.active = e
     }
   },
+  mounted() {
+  },
+  computed:{
+  },
   components: {
     Header,
     MobileBar,
     Footer,
-    PopupUser
+    PopupUser,
   }
 }
 </script>

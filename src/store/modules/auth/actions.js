@@ -19,6 +19,7 @@ const registerUser = async (context, obj) => {
         }
 };
 const resendSms = async (context, obj) => {
+    obj.referrer = null
     const response = (await axios.post(`${process.env.VUE_APP_API_URL}/api/auth/v1/resend/sms`, obj)).data
     if (response.success){
         await context.commit('setNotification', response.code)

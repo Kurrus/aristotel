@@ -3,7 +3,7 @@
 %page-frame {
 	padding: 100px 0;
 }
-$main-color: #111E6C;
+$main-color: #111e6c;
 $text-color: #333;
 $button-color: linear-gradient(180deg, #192EAC 0%, #111E6C 100%);;
 $frame: 1140px;
@@ -33,6 +33,12 @@ body {
 	min-width: 320px;
 	color: $text-color;
 	font: normal 18px $main-font;
+}
+.wrapper{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
 }
 h1,h2,h3,h4,h5,h6, p {
 	margin: 0;

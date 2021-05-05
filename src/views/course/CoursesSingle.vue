@@ -21,12 +21,13 @@
               <p>{{ course.category }}</p>
             </div>
             <div class="courses-data-frame">
-              <p class="courses-main-data"><i class="fa-clock"></i>Последнее обновление: <span>03.02.2021</span></p>
-              <p class="courses-main-data"><i class="fa-user"></i> Проходят курс <span>20 человек</span></p>
+              <p class="courses-main-data"><i class="fa-clock"></i>Последнее обновление: <span>{{ course.last_update }}</span></p>
+              <p class="courses-main-data"><i class="fa-user"></i> Проходят курс <span>{{ course.person_count }} человек</span></p>
             </div>
 
             <div class="courses-main-btn">
-              <a href="#" class="courses-save">Сохранить <i class="fa-save"></i></a>
+              <a href="#" v-if="hasWishlist" class="courses-save">Сохранено<i class="fa-save"></i></a>
+              <a href="#" v-else class="courses-save" @click.prevent="pushWishlist(course.id)">Сохранить <i class="fa-save"></i></a>
               <div class="courses-share">
                 <p>Поделится</p>
                 <ul>
@@ -84,31 +85,43 @@
                   <h3>Материалы курса</h3>
                 </div>
                 <div class="courses-content-body">
-                  <div v-for="(item, index) in material" :key="index" class="courses-material-item">
-                    <div class="material-header">
-                      <h3>{{ item.name }} <span>{{ item.lessons }}</span></h3>
-                      <span class="courses-plus" @click="item.open = !item.open"><i class="fa-title"></i></span>
-                    </div>
-                    <transition v-on:enter="enter" v-on:leave="leave">
-                      <div v-show="item.open" class="material-body">
-                      <div class="material-body-item material-complet">
-                        <p><i class="fa-check"></i> Что такое продажи и как начать продавать лучше всех</p>
-                        <i class="fa-lock-open material-lock-open"></i>
+                  <div v-for="(item, index) in course.material" :key="index" class="courses-material-item">
+                      <div class="material-header">
+                        <h3>{{ item.name }} <span>{{ item.lessons_count }} уроков</span></h3>
+                        <span class="courses-plus" @click="item.open = !item.open"><i class="fa-title"></i></span>
                       </div>
-                      <div class="material-body-item material-complet">
-                        <p><i class="fa-check"></i> Что такое продажи и как начать продавать лучше всех</p>
-                        <i class="fa-lock-open material-lock-open"></i>
-                      </div>
-                      <div class="material-body-item">
-                        <p><img src="../../assets/images/icon/play.svg" alt=""> Что такое продажи и как начать продавать лучше всех</p>
-                        <i class="fa-lock material-lock"></i>
-                      </div>
-                      <div class="material-body-item">
-                        <p><i class="fa-test"></i> ТЕСТ</p>
-                        <i class="fa-lock material-lock"></i>
-                      </div>
-                    </div>
-                    </transition>
+                      <transition v-on:enter="enter" v-on:leave="leave">
+                        <div v-show="item.open"  class="material-body">
+                          <div v-for="les in item.lessons" :key="les.id" class="material-body-item">
+                            <p class="single-complet">
+                              <svg v-if="les.process === 'new'" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10.75 3C10.75 2.58579 11.0858 2.25 11.5 2.25H16.5C16.9142 2.25 17.25 2.58579 17.25 3V21C17.25 21.4142 16.9142 21.75 16.5 21.75H11.5C11.0858 21.75 10.75 21.4142 10.75 21V3ZM12.25 3.75V20.25H15.75V3.75H12.25Z" fill="#CBCBDE"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.75 3C15.75 2.58579 16.0858 2.25 16.5 2.25H21.5C21.9142 2.25 22.25 2.58579 22.25 3V21C22.25 21.4142 21.9142 21.75 21.5 21.75H16.5C16.0858 21.75 15.75 21.4142 15.75 21V3ZM17.25 3.75V20.25H20.75V3.75H17.25Z" fill="#CBCBDE"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.50349 2.42778C3.54293 2.02032 3.90182 1.71975 4.30988 1.75243L9.55988 2.17289C9.7603 2.18894 9.94589 2.28479 10.075 2.43894C10.2041 2.59309 10.2659 2.79262 10.2465 2.99275L8.49651 21.0723C8.45707 21.4798 8.09819 21.7803 7.69013 21.7476L2.44013 21.3272C2.2397 21.3111 2.05412 21.2153 1.92502 21.0611C1.79592 20.907 1.73412 20.7075 1.75349 20.5073L3.50349 2.42778ZM4.92544 3.30653L3.31998 19.8929L7.07456 20.1935L8.68003 3.60722L4.92544 3.30653Z" fill="#CBCBDE"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M19 6.75C19.4142 6.75 19.75 7.08579 19.75 7.5V9C19.75 9.41421 19.4142 9.75 19 9.75C18.5858 9.75 18.25 9.41421 18.25 9V7.5C18.25 7.08579 18.5858 6.75 19 6.75Z" fill="#CBCBDE"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M14 6.75C14.4142 6.75 14.75 7.08579 14.75 7.5V9C14.75 9.41421 14.4142 9.75 14 9.75C13.5858 9.75 13.25 9.41421 13.25 9V7.5C13.25 7.08579 13.5858 6.75 14 6.75Z" fill="#CBCBDE"/>
+                              </svg>
+                              <img v-if="les.process === 'progress'" src="../../assets/images/icon/play.svg" alt="">
+                              <i v-if="les.process === 'finished'" class="fa-check"></i>
+                              {{ les.name }}
+                            </p>
+                            <i v-if="les.is_blocked" class="fa-lock material-lock"></i>
+                            <i v-else class="fa-lock-open material-lock-open"></i>
+                          </div>
+                          <!--                        <div class="material-body-item material-complet">-->
+                          <!--                          <p><i class="fa-check"></i> Что такое продажи и как начать продавать лучше всех</p>-->
+                          <!--                          <i class="fa-lock-open material-lock-open"></i>-->
+                          <!--                        </div>-->
+                          <!--                        <div class="material-body-item">-->
+                          <!--                          <p><img src="../../assets/images/icon/play.svg" alt=""> Что такое продажи и как начать продавать лучше всех</p>-->
+                          <!--                          <i class="fa-lock material-lock"></i>-->
+                          <!--                        </div>-->
+                          <!--                        <div class="material-body-item">-->
+                          <!--                          <p><i class="fa-test"></i> ТЕСТ</p>-->
+                          <!--                          <i class="fa-lock material-lock"></i>-->
+                          <!--                        </div>-->
+                        </div>
+                      </transition>
                   </div>
                 </div>
               </div>
@@ -123,7 +136,7 @@
 
                 <div class="courses-content-body" v-if="reviews">
                   <div class="average-rating">
-                    <p>Средняя оценка <span>{{reviews.average_rate}}</span></p>
+                    <p>Средняя оценка <span>{{reviews.average_rate || 0}}</span></p>
                     <div class="average-stars">
                       <i v-for="i in 5" :key="i" class="fa-star" :class="{'average-star-active': i <= parseInt(reviews.average_rate)}"></i>
                       <span>({{ reviews.count }})</span>
@@ -145,7 +158,7 @@
                         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                     </div>
                   </div>
-                  <a href="#" class="reviews-all">еще отзывы <i class="fa-arrow-line"></i></a>
+                  <a href="#" v-if="reviews.last_page >= reviews.page" class="reviews-all" @click.prevent="loadMore">еще отзывы <i class="fa-arrow-line"></i></a>
                 </div>
               </div>
             </div>
@@ -157,21 +170,24 @@
                     <span>{{ parseInt(course.old_price) }} UZS </span>
                     <p>{{ parseInt(course.price) }} UZS</p>
                   </div>
-                  <div class="courses-cart-star">
-                    <i v-for="i in 5" :key="i" class="fa-star" :class="{'average-star-active': i <= 5}"></i>
+                  <div class="courses-cart-star" v-if="reviews">
+                    <i v-for="i in 5" :key="i" class="fa-star" :class="{'average-star-active': i <= parseInt(reviews.average_rate || 0)}"></i>
                   </div>
-                </div>
-                <div class="courses-cart-btn">
-                  <a href="#" class="courses-add-cart">Добавить в корзину <i class="fa-cart-fill"></i></a>
-                  <a href="#" class="buy-now js-reviews-reg">Купить сейчас</a>
+                  <div class="courses-cart-star" v-else>
+                    <i v-for="i in 5" :key="i" class="fa-star" :class="{'average-star-active': i <= 0}"></i>
+                  </div>
                 </div>
                 <div class="courses-cart-description">
                   <h3>Этот курс включает</h3>
                   <ul>
-                    <li><i class="fa-book"></i>13 уроков</li>
-                    <li><i class="fa-infinity"></i>Безлимитный доступ</li>
-                    <li><i class="fa-certificate"></i>Сертификат</li>
+                    <li><i class="fa-book"></i>{{count_lesson}} уроков</li>
+                    <li v-if="course.permission"><i class="fa-infinity"></i>Безлимитный доступ</li>
+                    <li v-if="course.certificate"><i class="fa-certificate"></i>Сертификат</li>
                   </ul>
+                </div>
+                <div class="courses-cart-btn">
+                  <a href="#" class="courses-add-cart">Добавить в корзину <i class="fa-cart-fill"></i></a>
+                  <a href="#" class="buy-now js-reviews-reg">Купить сейчас</a>
                 </div>
               </div>
             </div>
@@ -202,6 +218,7 @@ export default {
   data() {
     return {
       descRead: false,
+      count_lesson: 0,
       material: [
         { open:false, name: 'Введение', lessons: '1 уроков'},
         { open:false, name: 'Знакомство с прдметом', lessons: '3 уроков'},
@@ -211,20 +228,31 @@ export default {
         { open:false, name: 'Повторение пройденного материала', lessons: '2 уроков'},
         { open:false, name: 'Подготовка к экзаменационным билетам', lessons: '3 уроков'},
       ],
-      domain: process.env.VUE_APP_API_URL
+      domain: process.env.VUE_APP_API_URL,
+      hasWishlist: false
     }
   },
   async mounted() {
+
     await this.$store.dispatch('getCourse', this.$route.params.id)
-    await this.$store.dispatch('getReviewsById', this.$route.params.id)
+    await this.$store.dispatch('getReviewsById', {id: this.$route.params.id, page: 1})
+
+    this.course.material.map(e=>{
+      this.count_lesson += e.lessons_count
+    })
+    await this.hasWish()
   },
+
   computed:{
     course(){
       return this.$store.getters.getCourse
     },
     reviews(){
       return this.$store.getters.getReviews
-    }
+    },
+    wishlist(){
+      return this.$store.getters.getWishlist
+    },
   },
   methods:{
     enter: function (el, done) {
@@ -242,9 +270,30 @@ export default {
           },
           {complete: done})
     },
+
+    async loadMore(){
+      await this.$store.dispatch('getReviewsById', {id: this.$route.params.id, page: this.reviews.page + 1})
+    },
+
+    async pushWishlist(id){
+      let obj = {
+        courses: [id]
+      }
+      await this.$store.dispatch('addWishlist', obj)
+      await this.hasWish()
+    },
+    async hasWish(){
+      await this.$store.dispatch('getWishlist')
+      if (this.wishlist){
+        this.wishlist.map(el => {
+          el.id === this.course.id ? this.hasWishlist = true : this.hasWishlist = false;
+        })
+      }
+      await this.$store.commit('setLoading', false)
+    }
   },
   components:{
-    CoursesCard
+    CoursesCard,
   }
 }
 </script>

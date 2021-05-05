@@ -39,6 +39,7 @@ export default {
         return
       }
       const user = {
+        referrer: localStorage.getItem('referrer') || '',
         phone: this.phone,
         code: this.code
       }

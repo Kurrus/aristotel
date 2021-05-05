@@ -3,7 +3,7 @@
     <div class="section-frame">
       <div class="header-top">
         <ul>
-          <li><a href="#">Вопросы и ответы</a></li>
+          <li><router-link to="/faq">Вопросы и ответы</router-link></li>
           <li><a href="#">Инструкция</a></li>
         </ul>
         <a href="tel:97 931 99 77" class="header-phone"><i class="fa-phone"></i>97 931 99 77</a>
